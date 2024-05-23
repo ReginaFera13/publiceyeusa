@@ -1,0 +1,4 @@
+.venv-peusa
+.env
+__pycache__
+secretscratch.py
