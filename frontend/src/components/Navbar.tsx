@@ -1,13 +1,27 @@
+import { Link, useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { userLogout } from "../utilities";
 
-function MyNavbar() {
+function MyNavbar({ user, setUser, userImg, setUserProfileData }) {
+  const navigate = useNavigate();
+
+  const handleUserLogout = async () => {
+		const loggedOut = await userLogout();
+		if (loggedOut) {
+			setUser(null);
+			setUserProfileData([]);
+			navigate("/")
+			
+		}
+	};
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand as={Link} to="/">
             <img
               alt=""
               src="logo.png"
@@ -17,12 +31,12 @@ function MyNavbar() {
             />{' '}
             PublicEyeUSA
         </Navbar.Brand>
-        <Navbar.Text>Welcome, Mark Otto!</Navbar.Text>{' '}
+        <Navbar.Text>Welcome, {user}</Navbar.Text>{' '}
           <Nav className="me-auto">
             <NavDropdown title="Menu" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#home">Home</NavDropdown.Item>
-              <NavDropdown.Item href="#signup">Signup</NavDropdown.Item>
-              <NavDropdown.Item href="#login">Login</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/signup">Signup</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/login">Login</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => handleUserLogout()}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
       </Container>
