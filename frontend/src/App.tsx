@@ -26,7 +26,7 @@ function App() {
     //   }
     // };
   
-    // fetchUsserProfile();
+    // fetchUserProfile();
   
     let nullUserUrls = ["/login", "/signup"] // should redirect to profile if logged in
     let allowNonUserUrls = ["/login", "/signup", "/"] // should allow if not logged in

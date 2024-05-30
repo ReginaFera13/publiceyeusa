@@ -67,3 +67,10 @@ export const userLogin = async(email, password) => {
     alert('Invalid Login Credentials');
     return null;
 }
+
+// get political affilation options
+export const getAffilations = async () => {
+  const response = await api.get("affiliations/");
+  const categories = response.data;
+  return categories;
+};
