@@ -1,0 +1,282 @@
+[
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 1,
+    "fields": {
+        "category": "Democratic Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 2,
+    "fields": {
+        "category": "Republican Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 3,
+    "fields": {
+        "category": "Libertarian Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 4,
+    "fields": {
+        "category": "Green Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 5,
+    "fields": {
+        "category": "Constitution Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 6,
+    "fields": {
+        "category": "American Independent Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 7,
+    "fields": {
+        "category": "Peace and Freedom Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 8,
+    "fields": {
+        "category": "Working Families Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 9,
+    "fields": {
+        "category": "Independence Party of America"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 10,
+    "fields": {
+        "category": "Reform Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 11,
+    "fields": {
+        "category": "American Solidarity Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 12,
+    "fields": {
+        "category": "Unity Party of America"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 13,
+    "fields": {
+        "category": "Modern Whig Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 14,
+    "fields": {
+        "category": "Alaskan Independence Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 15,
+    "fields": {
+        "category": "California National Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 16,
+    "fields": {
+        "category": "New York State Right to Life Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 17,
+    "fields": {
+        "category": "Vermont Progressive Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 18,
+    "fields": {
+        "category": "Rhode Island Moderate Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 19,
+    "fields": {
+        "category": "Independent American Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 20,
+    "fields": {
+        "category": "Progressive Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 21,
+    "fields": {
+        "category": "Socialist Party USA"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 22,
+    "fields": {
+        "category": "Party for Socialism and Liberation"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 23,
+    "fields": {
+        "category": "American Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 24,
+    "fields": {
+        "category": "Justice Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 25,
+    "fields": {
+        "category": "Natural Law Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 26,
+    "fields": {
+        "category": "Prohibition Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 27,
+    "fields": {
+        "category": "Transhumanist Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 28,
+    "fields": {
+        "category": "Pirate Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 29,
+    "fields": {
+        "category": "American Heritage Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 30,
+    "fields": {
+        "category": "U.S. Marijuana Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 31,
+    "fields": {
+        "category": "Veterans Party of America"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 32,
+    "fields": {
+        "category": "Conservative Party USA"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 33,
+    "fields": {
+        "category": "America First Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 34,
+    "fields": {
+        "category": "Communist Party USA"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 35,
+    "fields": {
+        "category": "American Freedom Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 36,
+    "fields": {
+        "category": "Christian Liberty Party"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 37,
+    "fields": {
+        "category": "Citizens Party of the United States"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 38,
+    "fields": {
+        "category": "Independent"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 39,
+    "fields": {
+        "category": "Unaffiliated"
+    }
+},
+{
+    "model": "affiliation_app.affiliation",
+    "pk": 40,
+    "fields": {
+        "category": "Nonpartisan"
+    }
+}
+]

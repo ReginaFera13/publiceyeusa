@@ -12,10 +12,8 @@ from rest_framework.status import (
 from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from .models import Profile
-from .serializers import ProfileSerializer, DisplayNameSerializer
-from user_app.models import User
-from user_app.serializers import UserSerializer
+from .serializers import Profile, ProfileSerializer, DisplayNameSerializer
+from user_app.serializers import User
 
 # Create your views here.
 class CurrentUserProfile(TokenReq):
@@ -44,11 +42,18 @@ class EditUserProfile(APIView):
         user = get_object_or_404(User, email=request.user)
         user_profile = get_object_or_404(Profile, user=user)
         data = request.data.copy()
+        
+        # Get the affiliations from the data and remove it from the data body
+        affliliation_ids = data.pop('affiliations', [])
             
         edit_profile = ProfileSerializer(instance=user_profile, data=data, partial=True)
         if edit_profile.is_valid():
             # Save the user profile first
             updated_profile = edit_profile.save()
+            
+            # Update the affiliations
+            if affliliation_ids:
+                updated_profile.affiliations.set(affliliation_ids)
             return Response(edit_profile.data, status=HTTP_200_OK)
         
         return Response(edit_profile.errors, status=HTTP_400_BAD_REQUEST)
