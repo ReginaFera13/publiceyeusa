@@ -5,18 +5,24 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { userLogout } from "../utilities";
 
-function MyNavbar({ user, setUser, userImg, setUserProfileData }) {
+function MyNavbar({ user, setUser }) {
   const navigate = useNavigate();
 
   const handleUserLogout = async () => {
 		const loggedOut = await userLogout();
 		if (loggedOut) {
 			setUser(null);
-			setUserProfileData([]);
+			// setUserProfileData([]);
 			navigate("/")
 			
 		}
 	};
+
+  // const renderUser = () => {
+  //   if (user && user.length > 0) {
+  //     return <Navbar.Text>Welcome, {user}</Navbar.Text>
+  //   }
+  // }
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -31,14 +37,12 @@ function MyNavbar({ user, setUser, userImg, setUserProfileData }) {
             />{' '}
             PublicEyeUSA
         </Navbar.Brand>
-        <Navbar.Text>Welcome, {user}</Navbar.Text>{' '}
-          <Nav className="me-auto">
-            <NavDropdown title="Menu" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/signup">Signup</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/login">Login</NavDropdown.Item>
-              <NavDropdown.Item onClick={() => handleUserLogout()}>Logout</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
+        {user && user.length > 0 && (
+          <>
+            <Navbar.Text>Welcome, {user}</Navbar.Text>
+            <Nav.Link onClick={handleUserLogout} >Logout</Nav.Link>
+          </>
+        )}
       </Container>
     </Navbar>
   );
