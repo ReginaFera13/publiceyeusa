@@ -68,9 +68,32 @@ export const userLogin = async(email, password) => {
     return null;
 }
 
+export const getUserProfile = async(user) => {
+  const response = await api.get("profile/");
+  let profileData = response.data;
+  return profileData;
+}
+
+export const putUserProfile = async (upload_data) => {
+
+  const filtered_data = Object.fromEntries( Object.entries(upload_data).filter(([key, value]) => value !== null && value !== undefined && (typeof value !== 'string' || value.trim() !== '') && (!Array.isArray(value) || value.length > 0)) );
+  let response = await api.put("profile/edit_profile/", filtered_data);
+  if (response.status === 200) {
+      return response.data;
+  } else {
+      console.log("error:", response.data);
+  }
+};
+
+export const getUserDisplayName = async(user) => {
+  const response = await api.get("profile/display_name/");
+  let displayName = response.data;
+  return displayName;
+}
+
 // get political affilation options
 export const getAffilations = async () => {
   const response = await api.get("affiliations/");
-  const categories = response.data;
-  return categories;
+  const affiliations = response.data;
+  return affiliations;
 };
