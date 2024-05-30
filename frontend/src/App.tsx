@@ -5,28 +5,31 @@ import './App.css'
 import MyNavbar from './components/Navbar';
 
 function App() {
-  const [user, setUser] = useState(useLoaderData());
-  const [userProfileData, setUserProfileData] = useState([])
+  const initialUser = useLoaderData();
+  const [user, setUser] = useState(initialUser);
+  // const [userProfileData, setUserProfileData] = useState([])
   const navigate = useNavigate();
   const location = useLocation();
 
+  console.log('USER', user)
+
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (user) {
-        try {
-          const userProfileData = await getUserProfile(user);
-          setUserProfileData(userProfileData);
-          // console.log('User profile data loaded:', userProfileData);
-        } catch (error) {
-          console.error('Error fetching user profile data:', error);
-        }
-      }
-    };
+    // const fetchUserProfile = async () => {
+    //   if (user) {
+    //     try {
+    //       const userProfileData = await getUserProfile(user);
+    //       setUserProfileData(userProfileData);
+    //       // console.log('User profile data loaded:', userProfileData);
+    //     } catch (error) {
+    //       console.error('Error fetching user profile data:', error);
+    //     }
+    //   }
+    // };
   
-    fetchUserProfile();
+    // fetchUsserProfile();
   
     let nullUserUrls = ["/login", "/signup"] // should redirect to profile if logged in
-    let allowNonUserUrls = ["/login", "/signup", "/", "/events"] // should allow if not logged in
+    let allowNonUserUrls = ["/login", "/signup", "/"] // should allow if not logged in
   
       // check if current url is one that might need to redirect
       let isNullUserUrl = nullUserUrls.includes(location.pathname)
@@ -49,8 +52,8 @@ function App() {
 
   return (
   <>
-    <MyNavbar setUserProfileData={setUserProfileData} user={ user } setUser={ setUser }/>
-    <Outlet context={{ user, setUser, userProfileData, setUserProfileData }}/>
+    <MyNavbar user={ user } setUser={ setUser }/>
+    <Outlet context={{ user, setUser }}/>
   </>
   )
 }
