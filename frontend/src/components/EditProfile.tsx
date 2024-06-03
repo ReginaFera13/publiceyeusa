@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
 import { getUserProfile, putUserProfile, getAffilations } from "../utilities";
 
-function EditProfile({ user }) {
-    const { userProfileData, setUserProfileData } = useOutletContext();
+function EditProfile({ setToggleEdit }) {
+    const { user, userProfileData, setUserProfileData } = useOutletContext();
     const [affiliations, setAffiliations] = useState([]);
     const [userAffiliations, setUserAffiliations] = useState([]);
     const [userAffiliationIDs, setUserAffiliationIDs] = useState([]);
@@ -20,9 +18,7 @@ function EditProfile({ user }) {
 
     const userProfile = async () => {
         const profileData = await getUserProfile(user);
-        // set data
         setDisplayName(profileData.display_name);
-        // map through interests to set the current interests
         setUserAffiliations(profileData.affiliations.map((aff) => aff.category));
     };
 
@@ -40,6 +36,7 @@ function EditProfile({ user }) {
     function handleSubmit(e) {
         e.preventDefault();
         updateUserProfile();
+        setToggleEdit(false)
     }
 
     useEffect(() => {
@@ -47,15 +44,9 @@ function EditProfile({ user }) {
         fetchAffiliations();
     }, []);
 
-    console.log('affiliations', affiliations)
-    console.log('user', user)
-    console.log('displayName', displayName)
-    console.log('userAffiliations', userAffiliations)
-
-
     return (
       <>
-        <h1>Edit Profile</h1>
+        <h3>Edit Profile</h3>
         <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="display_name">
                 <Form.Label>Display Name</Form.Label>

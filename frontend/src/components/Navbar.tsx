@@ -13,10 +13,8 @@ function MyNavbar({ userProfileData, setUserProfileData, user, setUser }) {
 			setUser(null);
 			setUserProfileData([]);
 			navigate("/")
-			
 		}
 	};
-  console.log('userProfileData', userProfileData)
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
