@@ -5,8 +5,6 @@ export const api = axios.create({
     withCredentials: true,
 });
 
-export default api;
-
 // user confirmation asyn function 
 export const userConfirmation = async () => {
     const token = localStorage.getItem("token");
@@ -71,7 +69,7 @@ export const userLogin = async(email, password) => {
     return null;
 }
 
-export const getUserProfile = async(user) => {
+export const getUserProfile = async() => {
   const response = await api.get("profile/");
   let profileData = response.data;
   return profileData;

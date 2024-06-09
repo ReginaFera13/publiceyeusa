@@ -3,11 +3,11 @@ import Button from 'react-bootstrap/Button';
 
 function SignupBttn() {
 
-    return (
-      <>
-        <Button variant="primary" as={Link} to="/signup">Signup</Button>
-      </>
-    )
-  }
+  return (
+  <>
+    <Button variant="primary" as={Link} to="/signup">Signup</Button>
+  </>
+  )
+}
   
-  export default SignupBttn
+export default SignupBttn

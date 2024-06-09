@@ -1,23 +1,26 @@
-import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
+import { useAppSelector } from '../store/hooks';
 
 function ProfileInfo({ setToggleEdit }) {
-    const { userProfileData } = useOutletContext();
+  const { profile } = useAppSelector((state) => state.profile);
 
-    const handleEditClick = () => {
-        setToggleEdit(true);
-      };
+  const handleEditClick = () => {
+    setToggleEdit(true);
+  };
 
-    return (
-      <>
-        <h3>{userProfileData.display_name}</h3>
-        {userProfileData.affiliations && userProfileData.affiliations.map((aff, i) => (
+  return (
+    <>
+      {profile && ( // Check if profile exists
+        <>
+          <h3>{profile.display_name}</h3>
+          {profile.affiliations && profile.affiliations.map((aff, i) => (
             <li key={i}>{aff.category}</li>
-        ))}
-        <Button onClick={handleEditClick}>Edit Profile</Button>
-      </>
-    )
-  }
+          ))}
+          <Button onClick={handleEditClick}>Edit Profile</Button>
+        </>
+      )}
+    </>
+  )
+}
   
-  export default ProfileInfo
+export default ProfileInfo
