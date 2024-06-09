@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
     baseURL: "http://127.0.0.1:8000/api/v1/",
+    withCredentials: true,
 });
 
 // user confirmation asyn function 
@@ -68,7 +69,7 @@ export const userLogin = async(email, password) => {
     return null;
 }
 
-export const getUserProfile = async(user) => {
+export const getUserProfile = async() => {
   const response = await api.get("profile/");
   let profileData = response.data;
   return profileData;

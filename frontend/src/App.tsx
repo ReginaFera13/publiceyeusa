@@ -1,58 +1,51 @@
-import { useEffect, useState } from 'react'
-import { Outlet, useNavigate, useLocation, useLoaderData } from "react-router-dom";
+import { useEffect } from 'react';
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css'
+import './App.css';
 import MyNavbar from './components/Navbar';
-import { getUserProfile } from './utilities';
+import { useAppDispatch, useAppSelector } from './store/hooks';
+import { confirmUser } from './store/authSlice';
+import { fetchProfile } from './store/profileSlice';
+import { fetchAffiliations } from './store/affiliationsSlice';
 
 function App() {
-  const initialUser = useLoaderData();
-  const [user, setUser] = useState(initialUser);
-  const [userProfileData, setUserProfileData] = useState([])
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log('USER', user)
+  const { user, loading } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (user) {
-        try {
-          const userProfileData = await getUserProfile(user);
-          setUserProfileData(userProfileData);
-          // console.log('User profile data loaded:', userProfileData);
-        } catch (error) {
-          console.error('Error fetching user profile data:', error);
-        }
-      }
-    };
-  
-    fetchUserProfile();
-  
-    let allowNonUserUrls = ["/login", "/signup", "/"] // should allow if not logged in
-    let homePage = '/'
-  
-      // check if current url is one that might need to redirect
-      let isAllowedNonUserUrl = allowNonUserUrls.includes(location.pathname);
+    if (!user) {
+      dispatch(confirmUser());
+      dispatch(fetchProfile());
+      dispatch(fetchAffiliations())
+    }
+  }, [dispatch, user]);
 
-      if (user && homePage) {
-        navigate("/profile")
-      }
-  
-      // not logged in user tries to go anywhere BUT signup, login, home or events
-      // we redirect because the user needs to log in before they do anything else
-      else if (!user && !isAllowedNonUserUrl){
-        navigate("/")
-      }
-  
-    }, [user, location.pathname]);
+  useEffect(() => {
+    const allowNonUserUrls = ["/login", "/signup", "/"]; // should allow if not logged in
+    const homePage = '/';
+
+    const isAllowedNonUserUrl = allowNonUserUrls.includes(location.pathname);
+
+    if (user && location.pathname === '/') {
+      navigate("/profile");
+    } else if (!user && !isAllowedNonUserUrl) {
+      navigate("/");
+    }
+  }, [user, location.pathname, navigate]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
-  <>
-    <MyNavbar userProfileData={userProfileData} setUserProfileData={setUserProfileData} user={ user } setUser={ setUser }/>
-    <Outlet context={{ user, setUser, userProfileData, setUserProfileData }}/>
-  </>
-  )
+    <>
+      <MyNavbar/> 
+      <Outlet/> 
+    </>
+  );
 }
 
-export default App
+export default App;
