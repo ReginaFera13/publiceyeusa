@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'user_app',
     'profile_app',
     'affiliation_app',
+    'usa_spending_app',
 ]
 
 MIDDLEWARE = [

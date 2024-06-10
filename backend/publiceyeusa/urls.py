@@ -41,4 +41,5 @@ urlpatterns = [
     path('api/v1/users/', include("user_app.urls")),
     path('api/v1/profile/', include("profile_app.urls")),
     path('api/v1/affiliations/', include("affiliation_app.urls")),
+    path('api/v1/usa_spending/', include("usa_spending_app.urls")),
 ]

@@ -31,7 +31,7 @@ class CurrentUserProfile(TokenReq):
         # return serialized user profile data
         return Response(ser_profile.data, status=HTTP_200_OK)
 
-class EditUserProfile(APIView):
+class EditUserProfile(TokenReq):
     @swagger_auto_schema(
         operation_summary="Edit user profile",
         operation_description="Update the profile data of the currently authenticated user.",
