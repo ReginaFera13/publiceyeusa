@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\backend"
+    "\\backend",
+    "\\backend\\publiceyeusa",
+    "\\backend\\user_app",
+    "\\frontend"
   ],
+  "SelectedNode": "\\backend\\publiceyeusa\\settings.py",
   "PreviewInSolutionExplorer": false
 }

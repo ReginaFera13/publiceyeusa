@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 
-env = dotenv_values(".env")
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.get("DJANGO_KEY")
+SECRET_KEY = os.getenv("DJANGO_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -117,11 +118,11 @@ WSGI_APPLICATION = 'publiceyeusa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env.get("DATABASE"),
-        'USER': env.get("DB_USER"),      
-        'PASSWORD': env.get("DB_PASSWORD"),
+        'NAME': os.getenv("DATABASE"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD") or '',
         'HOST': 'localhost',
-        'PORT': '5433', 
+        'PORT': 5433,
     }
 }
 
