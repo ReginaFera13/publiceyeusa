@@ -26,63 +26,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "urls.py",
-              "DocumentMoniker": "C:\\Users\\shawn\\source\\repos\\ReginaFera13\\publiceyeusa\\backend\\user_app\\urls.py",
-              "RelativeDocumentMoniker": "backend\\user_app\\urls.py",
-              "ToolTip": "C:\\Users\\shawn\\source\\repos\\ReginaFera13\\publiceyeusa\\backend\\user_app\\urls.py",
-              "RelativeToolTip": "backend\\user_app\\urls.py",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-06-13T17:03:03.13Z",
-              "IsPinned": true,
-              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "settings.py",
               "DocumentMoniker": "C:\\Users\\shawn\\source\\repos\\ReginaFera13\\publiceyeusa\\backend\\publiceyeusa\\settings.py",
               "RelativeDocumentMoniker": "backend\\publiceyeusa\\settings.py",
               "ToolTip": "C:\\Users\\shawn\\source\\repos\\ReginaFera13\\publiceyeusa\\backend\\publiceyeusa\\settings.py",
               "RelativeToolTip": "backend\\publiceyeusa\\settings.py",
-              "ViewState": "AQIAAG4AAAAAAAAAAAAkwHMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-06-13T16:39:58.459Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": ".env",
-              "DocumentMoniker": "C:\\Users\\shawn\\source\\repos\\ReginaFera13\\publiceyeusa\\backend\\.env",
-              "RelativeDocumentMoniker": "backend\\.env",
-              "ToolTip": "C:\\Users\\shawn\\source\\repos\\ReginaFera13\\publiceyeusa\\backend\\.env",
-              "RelativeToolTip": "backend\\.env",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-06-13T16:33:48.586Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "requirements.txt",
-              "DocumentMoniker": "C:\\Users\\shawn\\source\\repos\\ReginaFera13\\publiceyeusa\\backend\\requirements.txt",
-              "RelativeDocumentMoniker": "backend\\requirements.txt",
-              "ToolTip": "C:\\Users\\shawn\\source\\repos\\ReginaFera13\\publiceyeusa\\backend\\requirements.txt",
-              "RelativeToolTip": "backend\\requirements.txt",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-06-13T16:14:38.458Z",
               "EditorCaption": ""
             }
           ]

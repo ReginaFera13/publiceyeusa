@@ -869,3 +869,340 @@ class RecipientAutocomplete(APIView):
         except Exception as ex:
             logger.error(f"An unexpected error occurred: {ex}")
             return Response("Internal server error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class FundingAgencyAutocomplete(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'search_text': openapi.Schema(type=openapi.TYPE_STRING, description='Text to search for funding agencies'),
+                'limit': openapi.Schema(type=openapi.TYPE_INTEGER, description='Maximum number of results to return', default=10)
+            },
+            required=['search_text']
+        ),
+        responses={
+            200: openapi.Response(
+                description="List of funding agencies matching the search criteria",
+                examples={
+                    "application/json": {
+                        "results": [
+                            {
+                                "id": 1,
+                                "toptier_flag": True,
+                                "toptier_agency": {
+                                    "toptier_code": "097",
+                                    "abbreviation": "DOD",
+                                    "name": "Department of Defense"
+                                },
+                                "subtier_agency": {
+                                    "abbreviation": None,
+                                    "name": "Department of Defense"
+                                }
+                            },
+                            {
+                                "id": 2,
+                                "toptier_flag": False,
+                                "toptier_agency": {
+                                    "toptier_code": "097",
+                                    "abbreviation": "DOD",
+                                    "name": "Department of Defense"
+                                },
+                                "subtier_agency": {
+                                    "abbreviation": "DARPA",
+                                    "name": "Defense Advanced Research Projects Agency"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ),
+            400: "Invalid input",
+            500: "Internal server error"
+        }
+    )
+    def post(self, request):
+        search_text = request.data.get('search_text')
+        limit = request.data.get('limit', 10)
+
+        if not search_text:
+            return Response({"detail": "Missing required fields in request"}, status=status.HTTP_400_BAD_REQUEST)
+
+        payload = {
+            'search_text': search_text,
+            'limit': limit
+        }
+
+        endpoint = 'https://api.usaspending.gov/api/v2/autocomplete/funding_agency/'
+
+        try:
+            logger.debug(f"Requesting data from {endpoint} with payload: {payload}")
+            response = requests.post(endpoint, json=payload)
+            response.raise_for_status()
+            data = response.json()
+            logger.debug(f"Received data: {data}")
+
+            return Response(data, status=status.HTTP_200_OK)
+        except requests.RequestException as e:
+            logger.error(f"Request to {endpoint} failed: {e}")
+            return Response("Failed to fetch data", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as ex:
+            logger.error(f"An unexpected error occurred: {ex}")
+            return Response("Internal server error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class GlossaryAutocomplete(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'search_text': openapi.Schema(type=openapi.TYPE_STRING, description='Text snippet for autocomplete'),
+                'limit': openapi.Schema(type=openapi.TYPE_INTEGER, description='Maximum number of results to return')
+            },
+            required=['search_text']
+        ),
+        responses={
+            200: openapi.Response(
+                description="List of glossary terms matching the search criteria",
+                examples={
+                    "application/json": {
+                        "results": [
+                            "Award",
+                            "Award Amount",
+                            "Award ID",
+                            "Award Type",
+                            "Awarding Agency",
+                            "Awarding Office",
+                            "Awarding Sub-Agency",
+                            "Current Award Amount",
+                            "Multiple Award Schedule (MAS)",
+                            "Parent Award Identification (ID) Number"
+                        ],
+                        "search_text": "aW",
+                        "count": 10,
+                        "matched_terms": [
+                            {
+                                "term": "Award",
+                                "slug": "award",
+                                "data_act_term": None,
+                                "plain": "Money the federal government has promised to pay a recipient. Funding may be awarded to a company, organization, government entity (i.e., state, local, tribal, federal, or foreign), or individual. It may be obligated (promised) in the form of a contract, grant, loan, insurance, direct payment, etc.",
+                                "official": None,
+                                "resources": None,
+                            },
+                            {
+                                "term": "Award Amount",
+                                "slug": "award-amount",
+                                "data_act_term": "Amount of Award",
+                                "plain": "The amount that the federal government has promised to pay (obligated) a recipient, because it has signed a contract, awarded a grant, etc.",
+                                "official": "The cumulative amount obligated by the Federal Government for an award, which is calculated by USAspending.gov.\n\nFor procurement and financial assistance awards except loans, this is the sum of Federal Action Obligations.\n\nFor loans or loan guarantees, this is the Original Subsidy Cost.",
+                                "resources": "See also:\n\n- [Federal Action Obligation](?glossary=federal-action-obligation)\n- [Subsidy Cost](?glossary=subsidy-cost)\n- [Current Total Value of Award](?glossary=current-award-amount)"
+                            }
+                        ]
+                    }
+                }
+            ),
+            400: "Invalid input",
+            500: "Internal server error"
+        }
+    )
+    def post(self, request):
+        search_text = request.data.get('search_text')
+        limit = request.data.get('limit', 10)
+
+        if not search_text:
+            return Response({"detail": "Missing required fields in request"}, status=status.HTTP_400_BAD_REQUEST)
+
+        payload = {
+            'search_text': search_text,
+            'limit': limit
+        }
+
+        endpoint = 'https://api.usaspending.gov/api/v2/autocomplete/glossary/'
+
+        try:
+            logger.debug(f"Requesting data from {endpoint} with payload: {payload}")
+            response = requests.post(endpoint, json=payload)
+            response.raise_for_status()
+            data = response.json()
+            logger.debug(f"Received data: {data}")
+
+            return Response(data, status=status.HTTP_200_OK)
+        except requests.RequestException as e:
+            logger.error(f"Request to {endpoint} failed: {e}")
+            return Response("Failed to fetch data", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as ex:
+            logger.error(f"An unexpected error occurred: {ex}")
+            return Response("Internal server error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class NaicsAutocomplete(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'search_text': openapi.Schema(type=openapi.TYPE_STRING, description='Text to search for NAICS codes and descriptions'),
+                'limit': openapi.Schema(type=openapi.TYPE_INTEGER, description='Maximum number of results to return', default=10)
+            },
+            required=['search_text']
+        ),
+        responses={
+            200: openapi.Response(
+                description="List of NAICS codes and descriptions matching the search criteria",
+                examples={
+                    "application/json": {
+                        "results": [
+                            {"naics": "541330", "naics_description": "Engineering Services"},
+                            {"naics": "541310", "naics_description": "Architectural Services"},
+                            {"naics": "541320", "naics_description": "Landscape Architectural Services"}
+                        ]
+                    }
+                }
+            ),
+            400: "Invalid input",
+            500: "Internal server error"
+        }
+    )
+    def post(self, request):
+        search_text = request.data.get('search_text')
+        limit = request.data.get('limit', 10)
+
+        if not search_text:
+            return Response({"detail": "Missing required fields in request"}, status=status.HTTP_400_BAD_REQUEST)
+
+        payload = {
+            'search_text': search_text,
+            'limit': limit
+        }
+
+        endpoint = 'https://api.usaspending.gov/api/v2/autocomplete/naics/'
+
+        try:
+            logger.debug(f"Requesting data from {endpoint} with payload: {payload}")
+            response = requests.post(endpoint, json=payload)
+            response.raise_for_status()
+            data = response.json()
+            logger.debug(f"Received data: {data}")
+
+            return Response(data, status=status.HTTP_200_OK)
+        except requests.RequestException as e:
+            logger.error(f"Request to {endpoint} failed: {e}")
+            return Response("Failed to fetch data", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as ex:
+            logger.error(f"An unexpected error occurred: {ex}")
+            return Response("Internal server error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class PscAutocomplete(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'search_text': openapi.Schema(type=openapi.TYPE_STRING, description='Text to search for PSC codes and descriptions'),
+                'limit': openapi.Schema(type=openapi.TYPE_INTEGER, description='Maximum number of results to return', default=10)
+            },
+            required=['search_text']
+        ),
+        responses={
+            200: openapi.Response(
+                description="List of PSC codes and descriptions matching the search criteria",
+                examples={
+                    "application/json": {
+                        "results": [
+                            {"product_or_service_code": "R425", "psc_description": "Engineering and Technical Services"},
+                            {"product_or_service_code": "R408", "psc_description": "Program Management/Support Services"},
+                            {"product_or_service_code": "R499", "psc_description": "Other Professional Services"}
+                        ]
+                    }
+                }
+            ),
+            400: "Invalid input",
+            500: "Internal server error"
+        }
+    )
+    def post(self, request):
+        search_text = request.data.get('search_text')
+        limit = request.data.get('limit', 10)
+
+        if not search_text:
+            return Response({"detail": "Missing required fields in request"}, status=status.HTTP_400_BAD_REQUEST)
+
+        payload = {
+            'search_text': search_text,
+            'limit': limit
+        }
+
+        endpoint = 'https://api.usaspending.gov/api/v2/autocomplete/psc/'
+
+        try:
+            logger.debug(f"Requesting data from {endpoint} with payload: {payload}")
+            response = requests.post(endpoint, json=payload)
+            response.raise_for_status()
+            data = response.json()
+            logger.debug(f"Received data: {data}")
+
+            return Response(data, status=status.HTTP_200_OK)
+        except requests.RequestException as e:
+            logger.error(f"Request to {endpoint} failed: {e}")
+            return Response("Failed to fetch data", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as ex:
+            logger.error(f"An unexpected error occurred: {ex}")
+            return Response("Internal server error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class LocationAutocomplete(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'search_text': openapi.Schema(type=openapi.TYPE_STRING, description='Text to search for locations'),
+                'limit': openapi.Schema(type=openapi.TYPE_INTEGER, description='Maximum number of results to return', default=10)
+            },
+            required=['search_text']
+        ),
+        responses={
+            200: openapi.Response(
+                description="List of locations matching the search criteria",
+                examples={
+                    "application/json": {
+                        "results": {
+                            "countries": [
+                                {"country_name": "Denmark"},
+                                {"country_name": "Sweden"}
+                            ],
+                            "cities": [
+                                {"city_name": "Denver", "state_name": "Colorado", "country_name": "United States"},
+                                {"city_name": "Gadsden", "state_name": "Alabama", "country_name": "United States"},
+                                {"city_name": "Camden", "state_name": "Arkansas", "country_name": "United States"}
+                            ]
+                        },
+                        "messages": [""]
+                    }
+                }
+            ),
+            400: "Invalid input",
+            500: "Internal server error"
+        }
+    )
+    def post(self, request):
+        search_text = request.data.get('search_text')
+        limit = request.data.get('limit', 10)
+
+        if not search_text:
+            return Response({"detail": "Missing required fields in request"}, status=status.HTTP_400_BAD_REQUEST)
+
+        payload = {
+            'search_text': search_text,
+            'limit': limit
+        }
+
+        endpoint = 'https://api.usaspending.gov/api/v2/autocomplete/location'
+
+        try:
+            logger.debug(f"Requesting data from {endpoint} with payload: {payload}")
+            response = requests.post(endpoint, json=payload)
+            response.raise_for_status()
+            data = response.json()
+            logger.debug(f"Received data: {data}")
+
+            return Response(data, status=status.HTTP_200_OK)
+        except requests.RequestException as e:
+            logger.error(f"Request to {endpoint} failed: {e}")
+            return Response("Failed to fetch data", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as ex:
+            logger.error(f"An unexpected error occurred: {ex}")
+            return Response("Internal server error", status=status.HTTP_500_INTERNAL_SERVER_ERROR)

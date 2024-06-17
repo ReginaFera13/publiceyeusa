@@ -1,6 +1,6 @@
 from django.urls import path
 from .agency_views import AgencyOverview, AgencyAwards, AgencyNewAwardsCount, AgencyAwardsCount, BudgetFunction, BudgetFunctionCount, BudgetaryResources, FederalAccountList, FederalAccountCount, ObjectClassList, ObjectClassCount, ObligationsByAwardCategory, ProgramActivityList, ProgramActivityCount, SubAgencyList, SubAgencyCount, BureauFederalAccountList, SubcomponentList, TasObjectClassList, TasProgramActivityList
-from .autocomplete_views import TasAutocompleteA, TasAutocompleteAid,TasAutocompleteAta, TasAutocompleteBpoa, TasAutocompleteEpoa, TasAutocompleteMain, TasAutocompleteSub, AwardingAgencyAutocomplete, AwardingAgencyOfficeAutocomplete, FundingAgencyOfficeAutocomplete, CfdaAutocomplete, CityAutocomplete, RecipientAutocomplete
+from .autocomplete_views import TasAutocompleteA, TasAutocompleteAid,TasAutocompleteAta, TasAutocompleteBpoa, TasAutocompleteEpoa, TasAutocompleteMain, TasAutocompleteSub, AwardingAgencyAutocomplete, AwardingAgencyOfficeAutocomplete, FundingAgencyOfficeAutocomplete, CfdaAutocomplete, CityAutocomplete, RecipientAutocomplete, FundingAgencyAutocomplete, GlossaryAutocomplete, NaicsAutocomplete, PscAutocomplete, LocationAutocomplete
 
 # profile app urls 
 urlpatterns = [
@@ -40,4 +40,9 @@ urlpatterns = [
     path("autocomplete/cfda/", CfdaAutocomplete.as_view(), name="autocomplete_cfda"),
     path("autocomplete/city/", CityAutocomplete.as_view(), name="autocomplete_city"),
     path("autocomplete/recipient/", RecipientAutocomplete.as_view(), name="autocomplete_recipient"),
+    path("autocomplete/funding_agency/", FundingAgencyAutocomplete.as_view(), name="autocomplete_funding_agency"),
+    path("autocomplete/glossary/", GlossaryAutocomplete.as_view(), name="autocomplete_glossary"),
+    path("autocomplete/naics/", NaicsAutocomplete.as_view(), name="autocomplete_naics"),
+    path("autocomplete/psc/", PscAutocomplete.as_view(), name="autocomplete_psc"),
+    path("autocomplete/location/", LocationAutocomplete.as_view(), name="autocomplete_location"),
 ]
