@@ -3,6 +3,7 @@ from .agency_views import AgencyOverview, AgencyAwards, AgencyNewAwardsCount, Ag
 from .autocomplete_views import TasAutocompleteA, TasAutocompleteAid,TasAutocompleteAta, TasAutocompleteBpoa, TasAutocompleteEpoa, TasAutocompleteMain, TasAutocompleteSub, AwardingAgencyAutocomplete, AwardingAgencyOfficeAutocomplete, FundingAgencyOfficeAutocomplete, CfdaAutocomplete, CityAutocomplete, RecipientAutocomplete, FundingAgencyAutocomplete, GlossaryAutocomplete, NaicsAutocomplete, PscAutocomplete, LocationAutocomplete
 from .award_views import RecipientAwardSpending, AwardRetrieve, AwardAccounts, FederalAccountCount, SubawardCount, TransactionCount, AwardFunding, AwardFundingRollup, AwardLastUpdated
 from .budget_functions_views import ListBudgetFunction, ListBudgetSubfunction
+from .bulk_download_views import BulkAwardDownload, DownloadListAgencies, ListMonthlyDownloads, DownloadStatus
 
 # USASpending app urls 
 urlpatterns = [
@@ -62,4 +63,10 @@ urlpatterns = [
     # Budget Function URLs:
     path("budget_functions/list_budget_functions/", ListBudgetFunction.as_view(), name="list_budget_functions"),
     path("budget_functions/list_budget_subfunctions/", ListBudgetSubfunction.as_view(), name="list_budget_subfunctions"),
+
+    # Bulk Download URLs:
+    path("bulk_download/awards/", BulkAwardDownload.as_view(), name="bulk_download_awards"),
+    path("bulk_download/list_agencies/", DownloadListAgencies.as_view(), name="bulk_download_list_agencies"),
+    path("bulk_download/list_monthly_files/", ListMonthlyDownloads.as_view(), name="bulk_download_list_monthly_files"),
+    path("bulk_download/status/", DownloadStatus.as_view(), name="bulk_download_status"),
 ]
