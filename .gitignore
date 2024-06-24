@@ -396,3 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Other VS files
+.vs/VSWorkspaceState.json
+.vs/publiceyeusa/v17/.wsuo
+.vs/publiceyeusa/v17/DocumentLayout.json
+.vs/slnx.sqlite
