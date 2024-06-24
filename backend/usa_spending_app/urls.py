@@ -1,6 +1,7 @@
 from django.urls import path
 from .agency_views import AgencyOverview, AgencyAwards, AgencyNewAwardsCount, AgencyAwardsCount, BudgetFunction, BudgetFunctionCount, BudgetaryResources, FederalAccountList, FederalAccountCount, ObjectClassList, ObjectClassCount, ObligationsByAwardCategory, ProgramActivityList, ProgramActivityCount, SubAgencyList, SubAgencyCount, BureauFederalAccountList, SubcomponentList, TasObjectClassList, TasProgramActivityList
 from .autocomplete_views import TasAutocompleteA, TasAutocompleteAid,TasAutocompleteAta, TasAutocompleteBpoa, TasAutocompleteEpoa, TasAutocompleteMain, TasAutocompleteSub, AwardingAgencyAutocomplete, AwardingAgencyOfficeAutocomplete, FundingAgencyOfficeAutocomplete, CfdaAutocomplete, CityAutocomplete, RecipientAutocomplete, FundingAgencyAutocomplete, GlossaryAutocomplete, NaicsAutocomplete, PscAutocomplete, LocationAutocomplete
+from .award_views import RecipientAwardSpending, AwardRetrieve, AwardAccounts, FederalAccountCount, SubawardCount, TransactionCount, AwardFunding, AwardFundingRollup, AwardLastUpdated
 
 # profile app urls 
 urlpatterns = [
@@ -45,4 +46,15 @@ urlpatterns = [
     path("autocomplete/naics/", NaicsAutocomplete.as_view(), name="autocomplete_naics"),
     path("autocomplete/psc/", PscAutocomplete.as_view(), name="autocomplete_psc"),
     path("autocomplete/location/", LocationAutocomplete.as_view(), name="autocomplete_location"),
+
+    # Award URLs:
+    path("award_spending/recipient/", RecipientAwardSpending.as_view(), name="recipient_award_spending"),
+    path("awards/<str:award_id>/", AwardRetrieve.as_view(), name="award_retrieve"),
+    path("award/accounts/", AwardAccounts.as_view(), name="award_accounts"),
+    path("award/count/federal_account/<str:award_id>/", FederalAccountCount.as_view(), name="federal_account_count"),
+    path("award/count/subaward/<str:award_id>/", SubawardCount.as_view(), name="subaward_count"),
+    path("award/count/transaction/<str:award_id>/", TransactionCount.as_view(), name="transaction_count"),
+    path("award/funding/", AwardFunding.as_view(), name="award_funding"),
+    path("award/funding_rollup/", AwardFundingRollup.as_view(), name="award_funding_rollup"),
+    path("award/last_updated/", AwardLastUpdated.as_view(), name="award_last_updated"),
 ]
