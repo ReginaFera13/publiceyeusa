@@ -2,8 +2,9 @@ from django.urls import path
 from .agency_views import AgencyOverview, AgencyAwards, AgencyNewAwardsCount, AgencyAwardsCount, BudgetFunction, BudgetFunctionCount, BudgetaryResources, FederalAccountList, FederalAccountCount, ObjectClassList, ObjectClassCount, ObligationsByAwardCategory, ProgramActivityList, ProgramActivityCount, SubAgencyList, SubAgencyCount, BureauFederalAccountList, SubcomponentList, TasObjectClassList, TasProgramActivityList
 from .autocomplete_views import TasAutocompleteA, TasAutocompleteAid,TasAutocompleteAta, TasAutocompleteBpoa, TasAutocompleteEpoa, TasAutocompleteMain, TasAutocompleteSub, AwardingAgencyAutocomplete, AwardingAgencyOfficeAutocomplete, FundingAgencyOfficeAutocomplete, CfdaAutocomplete, CityAutocomplete, RecipientAutocomplete, FundingAgencyAutocomplete, GlossaryAutocomplete, NaicsAutocomplete, PscAutocomplete, LocationAutocomplete
 from .award_views import RecipientAwardSpending, AwardRetrieve, AwardAccounts, FederalAccountCount, SubawardCount, TransactionCount, AwardFunding, AwardFundingRollup, AwardLastUpdated
+from .budget_functions_views import ListBudgetFunction, ListBudgetSubfunction
 
-# profile app urls 
+# USASpending app urls 
 urlpatterns = [
     # Agency URLs:
     path("agency/<str:toptier_code>/", AgencyOverview.as_view(), name="agency_overview"),
@@ -57,4 +58,8 @@ urlpatterns = [
     path("award/funding/", AwardFunding.as_view(), name="award_funding"),
     path("award/funding_rollup/", AwardFundingRollup.as_view(), name="award_funding_rollup"),
     path("award/last_updated/", AwardLastUpdated.as_view(), name="award_last_updated"),
+
+    # Budget Function URLs:
+    path("budget_functions/list_budget_functions/", ListBudgetFunction.as_view(), name="list_budget_functions"),
+    path("budget_functions/list_budget_subfunctions/", ListBudgetSubfunction.as_view(), name="list_budget_subfunctions"),
 ]
