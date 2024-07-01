@@ -4,6 +4,7 @@ from .autocomplete_views import TasAutocompleteA, TasAutocompleteAid,TasAutocomp
 from .award_views import RecipientAwardSpending, AwardRetrieve, AwardAccounts, FederalAccountCount, SubawardCount, TransactionCount, AwardFunding, AwardFundingRollup, AwardLastUpdated
 from .budget_functions_views import ListBudgetFunction, ListBudgetSubfunction
 from .bulk_download_views import BulkAwardDownload, DownloadListAgencies, ListMonthlyDownloads, DownloadStatus
+from .disaster_views import DisasterAgencyCount, DisasterLoansByAgency, DisasterSpendingByAgency, DisasterAwardAmount, DisasterAwardCount, DisasterCfdaCount, DisasterCfdaLoans, DisasterCfdaSpending, DefCodeCount, DisasterFederalAccountCount, DisasterFederalAccountLoans,DisasterFederalAccountSpending, DisasterObjectClassCount, DisasterObjectClassLoans, DisasterObjectClassSpending, DisasterRecipientCount, DisasterRecipientLoans, DisasterRecipientSpending, DisasterSpendingByGeography
 
 # USASpending app urls 
 urlpatterns = [
@@ -69,4 +70,25 @@ urlpatterns = [
     path("bulk_download/list_agencies/", DownloadListAgencies.as_view(), name="bulk_download_list_agencies"),
     path("bulk_download/list_monthly_files/", ListMonthlyDownloads.as_view(), name="bulk_download_list_monthly_files"),
     path("bulk_download/status/", DownloadStatus.as_view(), name="bulk_download_status"),
+
+    # Disaster URLs:
+    path("disaster/agency/count/", DisasterAgencyCount.as_view(), name="disaster_agency_count"),
+    path("disaster/agency/loans/", DisasterLoansByAgency.as_view(), name="disaster_agency_loans"),
+    path("disaster/agency/spending/", DisasterSpendingByAgency.as_view(), name="disaster_agency_spending"),
+    path("disaster/award/amount/", DisasterAwardAmount.as_view(), name="disaster_award_amount"),
+    path("disaster/award/count/", DisasterAwardCount.as_view(), name="disaster_award_count"),
+    path("disaster/cfda/count/", DisasterCfdaCount.as_view(), name="disaster_cfda_count"),
+    path("disaster/cfda/loans/", DisasterCfdaLoans.as_view(), name="disaster_cfda_loans"),
+    path("disaster/cfda/spending/", DisasterCfdaSpending.as_view(), name="disaster_cfda_spending"),
+    path("disaster/def_code/count/", DefCodeCount.as_view(), name="def_code_count"),
+    path("disaster/federal_account/count/", DisasterFederalAccountCount.as_view(), name="disaster_federal_account_count"),
+    path("disaster/federal_account/loans/", DisasterFederalAccountLoans.as_view(), name="disaster_federal_account_loans"),
+    path("disaster/federal_account/spending/", DisasterFederalAccountSpending.as_view(), name="disaster_federal_account_spending"),
+    path("disaster/object_class/count/", DisasterObjectClassCount.as_view(), name="disaster_object_class_count"),
+    path("disaster/object_class/loans/", DisasterObjectClassLoans.as_view(), name="disaster_object_class_loans"),
+    path("disaster/object_class/spending/", DisasterObjectClassSpending.as_view(), name="disaster_object_class_spending"),
+    path("disaster/recipient/count/", DisasterRecipientCount.as_view(), name="disaster_recipient_count"),
+    path("disaster/recipient/loans/", DisasterRecipientLoans.as_view(), name="disaster_recipient_loans"),
+    path("disaster/recipient/spending/", DisasterRecipientSpending.as_view(), name="disaster_recipient_spending"),
+    path("disaster/spending_by_geography/", DisasterSpendingByGeography.as_view(), name="disaster_spending_by_geography"),
 ]
