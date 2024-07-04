@@ -6,6 +6,7 @@ from .budget_functions_views import ListBudgetFunction, ListBudgetSubfunction
 from .bulk_download_views import BulkAwardDownload, DownloadListAgencies, ListMonthlyDownloads, DownloadStatus
 from .disaster_views import DisasterAgencyCount, DisasterLoansByAgency, DisasterSpendingByAgency, DisasterAwardAmount, DisasterAwardCount, DisasterCfdaCount, DisasterCfdaLoans, DisasterCfdaSpending, DefCodeCount, DisasterFederalAccountCount, DisasterFederalAccountLoans,DisasterFederalAccountSpending, DisasterObjectClassCount, DisasterObjectClassLoans, DisasterObjectClassSpending, DisasterRecipientCount, DisasterRecipientLoans, DisasterRecipientSpending, DisasterSpendingByGeography, DisasterSpendingOverview
 from .download_views import AccountDownload, AssistanceDownload, AwardDownload, ContractDownload, DownloadTransactionCount, DisasterDownload, DisasterRecipientDownload, IDVDownload, DownloadStatus, TransactionDownload
+from .federal_accounts_views import IndividualFederalAccount, ObjectClassFederalAccounts, CurrentFiscalYearSnapshotFederalAccounts, CustomFiscalYearSnapshotFederalAccounts, AllFederalAccounts
 
 # USASpending app urls 
 urlpatterns = [
@@ -105,4 +106,11 @@ urlpatterns = [
     path("download/idv/", IDVDownload.as_view(), name="download_idv"),
     path("download/status/", DownloadStatus.as_view(), name="download_status"),
     path("download/transactions/", TransactionDownload.as_view(), name="download_transactions"),
+
+    # Federal Acoounts URLs:
+    path("federal_accounts/<str:account_number>/", IndividualFederalAccount.as_view(), name="individual_federal_accounts"),
+    path("federal_accounts/<str:federal_account_id>/available_object_classes/", ObjectClassFederalAccounts.as_view(), name="object_class_federal_accounts"),
+    path("federal_accounts/<str:federal_account_id>/fiscal_year_snapshot/", CurrentFiscalYearSnapshotFederalAccounts.as_view(), name="current_fiscal_year_snapshot_federal_accounts"),
+    path("federal_accounts/<str:federal_account_id>/fiscal_year_snapshot/<int:fiscal_year>/", CustomFiscalYearSnapshotFederalAccounts.as_view(), name="custom_fiscal_year_snapshot_federal_accounts"),
+    path("federal_accounts/", AllFederalAccounts.as_view(), name="all_federal_accounts"),
 ]
