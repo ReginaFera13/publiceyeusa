@@ -8,6 +8,7 @@ from .disaster_views import DisasterAgencyCount, DisasterLoansByAgency, Disaster
 from .download_views import AccountDownload, AssistanceDownload, AwardDownload, ContractDownload, DownloadTransactionCount, DisasterDownload, DisasterRecipientDownload, IDVDownload, DownloadStatus, TransactionDownload
 from .federal_accounts_views import IndividualFederalAccount, ObjectClassFederalAccounts, CurrentFiscalYearSnapshotFederalAccounts, CustomFiscalYearSnapshotFederalAccounts, AllFederalAccounts
 from .federal_obligations_views import FederalObligations
+from .financial_balances_views import AgenciesFinancialBalances
 
 # USASpending app urls 
 urlpatterns = [
@@ -117,4 +118,7 @@ urlpatterns = [
 
     # Federal Obligations URLs:
     path("federal_obligations/", FederalObligations.as_view(), name="federal_obligations"),
+
+    # Financial Balances URLs:
+    path("financial_balances/agencies/", AgenciesFinancialBalances.as_view(), name="agencies_financial_balances"),
 ]
