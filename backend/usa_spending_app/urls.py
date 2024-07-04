@@ -9,6 +9,7 @@ from .download_views import AccountDownload, AssistanceDownload, AwardDownload, 
 from .federal_accounts_views import IndividualFederalAccount, ObjectClassFederalAccounts, CurrentFiscalYearSnapshotFederalAccounts, CustomFiscalYearSnapshotFederalAccounts, AllFederalAccounts
 from .federal_obligations_views import FederalObligations
 from .financial_balances_views import AgenciesFinancialBalances
+from .financial_spending_views import ObjectClassFinancialSpending, MinorObjectClassFinancialSpending
 
 # USASpending app urls 
 urlpatterns = [
@@ -121,4 +122,8 @@ urlpatterns = [
 
     # Financial Balances URLs:
     path("financial_balances/agencies/", AgenciesFinancialBalances.as_view(), name="agencies_financial_balances"),
+
+    # Financial Spending URLs:
+    path("financial_spending/major_object_class/", ObjectClassFinancialSpending.as_view(), name="financial_spending_major_object_class"),
+    path("financial_spending/object_class/", MinorObjectClassFinancialSpending.as_view(), name="financial_spending_minor_object_class"),
 ]
