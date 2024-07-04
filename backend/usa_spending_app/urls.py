@@ -4,7 +4,8 @@ from .autocomplete_views import TasAutocompleteA, TasAutocompleteAid,TasAutocomp
 from .award_views import RecipientAwardSpending, AwardRetrieve, AwardAccounts, FederalAccountCount, SubawardCount, TransactionCount, AwardFunding, AwardFundingRollup, AwardLastUpdated
 from .budget_functions_views import ListBudgetFunction, ListBudgetSubfunction
 from .bulk_download_views import BulkAwardDownload, DownloadListAgencies, ListMonthlyDownloads, DownloadStatus
-from .disaster_views import DisasterAgencyCount, DisasterLoansByAgency, DisasterSpendingByAgency, DisasterAwardAmount, DisasterAwardCount, DisasterCfdaCount, DisasterCfdaLoans, DisasterCfdaSpending, DefCodeCount, DisasterFederalAccountCount, DisasterFederalAccountLoans,DisasterFederalAccountSpending, DisasterObjectClassCount, DisasterObjectClassLoans, DisasterObjectClassSpending, DisasterRecipientCount, DisasterRecipientLoans, DisasterRecipientSpending, DisasterSpendingByGeography
+from .disaster_views import DisasterAgencyCount, DisasterLoansByAgency, DisasterSpendingByAgency, DisasterAwardAmount, DisasterAwardCount, DisasterCfdaCount, DisasterCfdaLoans, DisasterCfdaSpending, DefCodeCount, DisasterFederalAccountCount, DisasterFederalAccountLoans,DisasterFederalAccountSpending, DisasterObjectClassCount, DisasterObjectClassLoans, DisasterObjectClassSpending, DisasterRecipientCount, DisasterRecipientLoans, DisasterRecipientSpending, DisasterSpendingByGeography, DisasterSpendingOverview
+from .download_views import AccountDownload, AssistanceDownload, AwardDownload, ContractDownload, DownloadTransactionCount, DisasterDownload, DisasterRecipientDownload, IDVDownload, DownloadStatus, TransactionDownload
 
 # USASpending app urls 
 urlpatterns = [
@@ -91,4 +92,17 @@ urlpatterns = [
     path("disaster/recipient/loans/", DisasterRecipientLoans.as_view(), name="disaster_recipient_loans"),
     path("disaster/recipient/spending/", DisasterRecipientSpending.as_view(), name="disaster_recipient_spending"),
     path("disaster/spending_by_geography/", DisasterSpendingByGeography.as_view(), name="disaster_spending_by_geography"),
+    path("disaster/overview/", DisasterSpendingOverview.as_view(), name="disaster_overview"),
+
+    # Download URLs:
+    path("download/accounts/", AccountDownload.as_view(), name="download_accounts"),
+    path("download/assistance/", AssistanceDownload.as_view(), name="download_assistance"),
+    path("download/awards/", AwardDownload.as_view(), name="download_awards"),
+    path("download/contract/", ContractDownload.as_view(), name="download_contract"),
+    path("download/count/", DownloadTransactionCount.as_view(), name="download_count"),
+    path("download/disaster/", DisasterDownload.as_view(), name="download_disaster"),
+    path("download/disaster/recipients/", DisasterRecipientDownload.as_view(), name="download_disaster_recipients"),
+    path("download/idv/", IDVDownload.as_view(), name="download_idv"),
+    path("download/status/", DownloadStatus.as_view(), name="download_status"),
+    path("download/transactions/", TransactionDownload.as_view(), name="download_transactions"),
 ]

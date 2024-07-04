@@ -1672,3 +1672,80 @@ class DisasterSpendingByGeography(APIView):
         except requests.RequestException as e:
             logger.error("Error retrieving geographical spending information: %s", str(e))
             return Response({"detail": f"Error retrieving geographical spending information: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class DisasterSpendingOverview(APIView):
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                'def_codes',
+                openapi.IN_QUERY,
+                description="Comma-delimited list of DEF codes to limit results to",
+                type=openapi.TYPE_STRING
+            )
+        ],
+        responses={
+            200: openapi.Response(
+                description="Funding and spending details retrieved successfully",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'funding': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Schema(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'def_code': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'amount': openapi.Schema(type=openapi.TYPE_NUMBER)
+                                }
+                            )
+                        ),
+                        'total_budget_authority': openapi.Schema(type=openapi.TYPE_NUMBER),
+                        'spending': openapi.Schema(
+                            type=openapi.TYPE_OBJECT,
+                            properties={
+                                'award_obligations': openapi.Schema(type=openapi.TYPE_NUMBER, nullable=True),
+                                'award_outlays': openapi.Schema(type=openapi.TYPE_NUMBER, nullable=True),
+                                'total_obligations': openapi.Schema(type=openapi.TYPE_NUMBER, nullable=True),
+                                'total_outlays': openapi.Schema(type=openapi.TYPE_NUMBER, nullable=True)
+                            }
+                        ),
+                        'additional': openapi.Schema(
+                            type=openapi.TYPE_OBJECT,
+                            properties={
+                                'total_budget_authority': openapi.Schema(type=openapi.TYPE_NUMBER),
+                                'spending': openapi.Schema(
+                                    type=openapi.TYPE_OBJECT,
+                                    properties={
+                                        'total_obligations': openapi.Schema(type=openapi.TYPE_NUMBER, nullable=True),
+                                        'total_outlays': openapi.Schema(type=openapi.TYPE_NUMBER, nullable=True)
+                                    }
+                                )
+                            },
+                            nullable=True
+                        )
+                    }
+                )
+            ),
+            400: "Bad Request",
+            500: "Internal server error"
+        }
+    )
+    def get(self, request):
+        endpoint = 'https://api.usaspending.gov/api/v2/disaster/overview/'
+
+        def_codes = request.query_params.get('def_codes', None)
+        params = {}
+        if def_codes:
+            params['def_codes'] = def_codes
+
+        try:
+            logger.debug("Request params: %s", params)
+            response = requests.get(endpoint, params=params)
+            response.raise_for_status()
+            data = response.json()
+            logger.debug("Response data: %s", data)
+
+            return Response(data, status=status.HTTP_200_OK)
+        except requests.RequestException as e:
+            logger.error("Error retrieving disaster spending overview: %s", str(e))
+            return Response({"detail": f"Error retrieving disaster spending overview: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
