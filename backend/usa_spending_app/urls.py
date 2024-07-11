@@ -10,6 +10,7 @@ from .federal_accounts_views import IndividualFederalAccount, ObjectClassFederal
 from .federal_obligations_views import FederalObligations
 from .financial_balances_views import AgenciesFinancialBalances
 from .financial_spending_views import ObjectClassFinancialSpending, MinorObjectClassFinancialSpending
+from .idv_views import IDVAccounts, IDVActivity, IDVAmounts, IDVAwards, IDVFederalAccountCount, IDVFundingRollup
 
 # USASpending app urls 
 urlpatterns = [
@@ -126,4 +127,12 @@ urlpatterns = [
     # Financial Spending URLs:
     path("financial_spending/major_object_class/", ObjectClassFinancialSpending.as_view(), name="financial_spending_major_object_class"),
     path("financial_spending/object_class/", MinorObjectClassFinancialSpending.as_view(), name="financial_spending_minor_object_class"),
+
+    # IDV URLs:
+    path("idvs/accounts/", IDVAccounts.as_view(), name="idvs_accounts"),
+    path("idvs/activity/", IDVActivity.as_view(), name="idvs_activity"),
+    path("idvs/amounts/<str:award_id>/", IDVAmounts.as_view(), name="idvs_amounts"),
+    path("idvs/awards/", IDVAwards.as_view(), name="idvs_awards"),
+    path("idvs/count/federal_account/<str:award_id>/", IDVFederalAccountCount.as_view(), name="idvs_federal_account_count"),
+    path("idvs/funding_rollup/", IDVFundingRollup.as_view(), name="idvs_funding_rollup"),
 ]
