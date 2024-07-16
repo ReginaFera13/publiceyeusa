@@ -11,6 +11,7 @@ from .federal_obligations_views import FederalObligations
 from .financial_balances_views import AgenciesFinancialBalances
 from .financial_spending_views import ObjectClassFinancialSpending, MinorObjectClassFinancialSpending
 from .idv_views import IDVAccounts, IDVActivity, IDVAmounts, IDVAwards, IDVFederalAccountCount, IDVFundingRollup
+from .recipient_views import RecipientList, RecipientChildren, RecipientCount, SpecificRecipientDuns, StateOverview, StateList, StateAwardBreakdown
 
 # USASpending app urls 
 urlpatterns = [
@@ -135,4 +136,13 @@ urlpatterns = [
     path("idvs/awards/", IDVAwards.as_view(), name="idvs_awards"),
     path("idvs/count/federal_account/<str:award_id>/", IDVFederalAccountCount.as_view(), name="idvs_federal_account_count"),
     path("idvs/funding_rollup/", IDVFundingRollup.as_view(), name="idvs_funding_rollup"),
+
+    # Recipient URLs:
+    path("recipient/", RecipientList.as_view(), name="recipient"),
+    path("recipient/children/<str:duns_or_uei>/", RecipientChildren.as_view(), name="recipient_children"),
+    path("recipient/count/", RecipientCount.as_view(), name="recipient_count"),
+    path("recipient/<str:recipient_id>/", SpecificRecipientDuns.as_view(), name="specific_recipient_duns"),
+    path("recipient/state/<str:fips>/", StateOverview.as_view(), name="recipient_state_overview"),
+    path("recipient/state/", StateList.as_view(), name="recipient_state_list"),
+    path("recipient/state/awards/<str:fips>/", StateAwardBreakdown.as_view(), name="recipient_state_awards"),
 ]
