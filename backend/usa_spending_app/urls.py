@@ -12,6 +12,7 @@ from .financial_balances_views import AgenciesFinancialBalances
 from .financial_spending_views import ObjectClassFinancialSpending, MinorObjectClassFinancialSpending
 from .idv_views import IDVAccounts, IDVActivity, IDVAmounts, IDVAwards, IDVFederalAccountCount, IDVFundingRollup
 from .recipient_views import RecipientList, RecipientChildren, RecipientCount, SpecificRecipientDuns, StateOverview, StateList, StateAwardBreakdown
+from .reporting_views import AgencyReportingDifferences, AgencyReportingDiscrepancies, AgencyReportingOverview, AgenciesReportingOverview, AgencyReportingPublishDates, AgenciesReportingPublishDatesHistory, AgenciesUnlinkedAwards
 
 # USASpending app urls 
 urlpatterns = [
@@ -145,4 +146,13 @@ urlpatterns = [
     path("recipient/state/<str:fips>/", StateOverview.as_view(), name="recipient_state_overview"),
     path("recipient/state/", StateList.as_view(), name="recipient_state_list"),
     path("recipient/state/awards/<str:fips>/", StateAwardBreakdown.as_view(), name="recipient_state_awards"),
+
+    # Reporting URLs:
+    path("reporting/agencies/<str:toptier_code>/differences/", AgencyReportingDifferences.as_view(), name="agency_reporting_differences"),
+    path("reporting/agencies/<str:toptier_code>/discrepancies/", AgencyReportingDiscrepancies.as_view(), name="agency_reporting_discrepancies"),
+    path("reporting/agencies/<str:toptier_code>/overview/", AgencyReportingOverview.as_view(), name="agency_reporting_overview"),
+    path("reporting/agencies/overview/", AgenciesReportingOverview.as_view(), name="agencies_reporting_overview"),
+    path("reporting/agencies/publish_dates/", AgencyReportingPublishDates.as_view(), name="agencies_reporting_publish_dates"),
+    path("reporting/agencies/<str:toptier_code>/<str:fiscal_year>/<str:fiscal_period>/submission_history/", AgenciesReportingPublishDatesHistory.as_view(), name="agencies_reporting_submission_history"),
+    path("reporting/agencies/<str:toptier_code>/<str:fiscal_year>/<str:fiscal_period>/unlinked_awards/<str:type>/", AgenciesUnlinkedAwards.as_view(), name="agencies_reporting_unlinked_awards"),
 ]
