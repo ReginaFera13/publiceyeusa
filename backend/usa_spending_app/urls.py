@@ -13,6 +13,7 @@ from .financial_spending_views import ObjectClassFinancialSpending, MinorObjectC
 from .idv_views import IDVAccounts, IDVActivity, IDVAmounts, IDVAwards, IDVFederalAccountCount, IDVFundingRollup
 from .recipient_views import RecipientList, RecipientChildren, RecipientCount, SpecificRecipientDuns, StateOverview, StateList, StateAwardBreakdown
 from .reporting_views import AgencyReportingDifferences, AgencyReportingDiscrepancies, AgencyReportingOverview, AgenciesReportingOverview, AgencyReportingPublishDates, AgenciesReportingPublishDatesHistory, AgenciesUnlinkedAwards
+from .search_views import NewAwardsOverTime, SpendingByAward, SpendingByAwardCount, SpendingByAwardingAgency
 
 # USASpending app urls 
 urlpatterns = [
@@ -155,4 +156,10 @@ urlpatterns = [
     path("reporting/agencies/publish_dates/", AgencyReportingPublishDates.as_view(), name="agencies_reporting_publish_dates"),
     path("reporting/agencies/<str:toptier_code>/<str:fiscal_year>/<str:fiscal_period>/submission_history/", AgenciesReportingPublishDatesHistory.as_view(), name="agencies_reporting_submission_history"),
     path("reporting/agencies/<str:toptier_code>/<str:fiscal_year>/<str:fiscal_period>/unlinked_awards/<str:type>/", AgenciesUnlinkedAwards.as_view(), name="agencies_reporting_unlinked_awards"),
+
+    # Search URLs:
+    path("search/new_awards_over_time/", NewAwardsOverTime.as_view(), name="new_awards_over_time"),
+    path("search/spending_by_award/", SpendingByAward.as_view(), name="spending_by_award"),
+    path("search/spending_by_award_count/", SpendingByAwardCount.as_view(), name="spending_by_award_count"),
+    path("search/spending_by_category/awarding_agency/", SpendingByAwardingAgency.as_view(), name="spending_by_awarding_agency"),
 ]
