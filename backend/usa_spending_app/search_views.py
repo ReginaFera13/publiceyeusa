@@ -451,3 +451,658 @@ class SpendingByAwardingAgency(APIView):
                 {"error": "An internal error occurred"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+class SpendingByAwardingSubagency(APIView):
+    @swagger_auto_schema(
+        operation_description="Retrieve the top awarding subagencies sorted by total amounts",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'filters': openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    description="Filters for the awarding subagencies",
+                    required=['recipient_id', 'time_period'],
+                    properties={
+                        'recipient_id': openapi.Schema(
+                            type=openapi.TYPE_STRING,
+                            description="Unique identifier for the recipient"
+                        ),
+                        'time_period': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'start_date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
+                                    'end_date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
+                                }
+                            ),
+                            description="Time period for the search"
+                        ),
+                        # Add other filter properties here as needed
+                    }
+                ),
+                'limit': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="Number of results to include per page",
+                    default=5
+                ),
+                'page': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="Page of results to return based on the limit",
+                    default=1
+                ),
+                'subawards': openapi.Schema(
+                    type=openapi.TYPE_BOOLEAN,
+                    description="Search Prime Awards or Sub Awards",
+                    default=False,
+                ),
+            },
+            required=['filters'],
+        ),
+        responses={
+            200: openapi.Response(
+                description="A list of top awarding subagencies",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'category': openapi.Schema(type=openapi.TYPE_STRING),
+                        'limit': openapi.Schema(type=openapi.TYPE_INTEGER),
+                        'results': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'amount': openapi.Schema(type=openapi.TYPE_NUMBER),
+                                    'name': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'code': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'id': openapi.Schema(type=openapi.TYPE_INTEGER)
+                                }
+                            )
+                        ),
+                        'page_metadata': openapi.Schema(
+                            type=openapi.TYPE_OBJECT,
+                            properties={
+                                'page': openapi.Schema(type=openapi.TYPE_INTEGER),
+                                'hasNext': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                                'hasPrevious': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                                'next': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True),
+                                'previous': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True),
+                            }
+                        ),
+                        'messages': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(type=openapi.TYPE_STRING)
+                        ),
+                    }
+                )
+            ),
+            400: "Bad Request - Missing or invalid data",
+        }
+    )
+    def post(self, request):
+        try:
+            data = request.data
+            if 'filters' not in data:
+                return Response(
+                    {"error": "The 'filters' field is required."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            filters = data['filters']
+            limit = data.get('limit', 5)
+            page = data.get('page', 1)
+            subawards = data.get('subawards', False)
+
+            # Prepare the payload for the API request
+            payload = {
+                "filters": filters,
+                "limit": limit,
+                "page": page,
+                "subawards": subawards,
+            }
+
+            # Send a request to the external API
+            response = requests.post(
+                'https://api.usaspending.gov/api/v2/search/spending_by_category/awarding_subagency/',
+                json=payload
+            )
+
+            if response.status_code == 200:
+                return Response(response.json(), status=status.HTTP_200_OK)
+            else:
+                logger.error(f"Error from external API: {response.text}")
+                return Response(
+                    {"error": "Failed to fetch data from the external API"},
+                    status=response.status_code
+                )
+
+        except Exception as e:
+            logger.error(f"An error occurred: {str(e)}")
+            return Response(
+                {"error": "An internal error occurred"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+class SpendingByCFDA(APIView):
+    @swagger_auto_schema(
+        operation_description="Retrieve the top CFDA sorted by total amounts",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'filters': openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    description="Filters for the CFDA",
+                    required=['recipient_id', 'time_period'],
+                    properties={
+                        'recipient_id': openapi.Schema(
+                            type=openapi.TYPE_STRING,
+                            description="Unique identifier for the recipient"
+                        ),
+                        'time_period': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'start_date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
+                                    'end_date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
+                                }
+                            ),
+                            description="Time period for the search"
+                        ),
+                        # Add other filter properties here as needed
+                    }
+                ),
+                'limit': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="Number of results to include per page",
+                    default=5
+                ),
+                'page': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="Page of results to return based on the limit",
+                    default=1
+                ),
+                'subawards': openapi.Schema(
+                    type=openapi.TYPE_BOOLEAN,
+                    description="Search Prime Awards or Sub Awards",
+                    default=False,
+                ),
+            },
+            required=['filters'],
+        ),
+        responses={
+            200: openapi.Response(
+                description="A list of top CFDA",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'category': openapi.Schema(type=openapi.TYPE_STRING),
+                        'limit': openapi.Schema(type=openapi.TYPE_INTEGER),
+                        'results': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'amount': openapi.Schema(type=openapi.TYPE_NUMBER),
+                                    'name': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'code': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'id': openapi.Schema(type=openapi.TYPE_INTEGER)
+                                }
+                            )
+                        ),
+                        'page_metadata': openapi.Schema(
+                            type=openapi.TYPE_OBJECT,
+                            properties={
+                                'page': openapi.Schema(type=openapi.TYPE_INTEGER),
+                                'hasNext': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                                'hasPrevious': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                                'next': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True),
+                                'previous': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True),
+                            }
+                        ),
+                        'messages': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(type=openapi.TYPE_STRING)
+                        ),
+                    }
+                )
+            ),
+            400: "Bad Request - Missing or invalid data",
+        }
+    )
+    def post(self, request):
+        try:
+            data = request.data
+            if 'filters' not in data:
+                return Response(
+                    {"error": "The 'filters' field is required."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            filters = data['filters']
+            limit = data.get('limit', 5)
+            page = data.get('page', 1)
+            subawards = data.get('subawards', False)
+
+            # Prepare the payload for the API request
+            payload = {
+                "filters": filters,
+                "limit": limit,
+                "page": page,
+                "subawards": subawards
+            }
+
+            # Send a request to the external API
+            response = requests.post(
+                'https://api.usaspending.gov/api/v2/search/spending_by_category/cfda/',
+                json=payload
+            )
+
+            if response.status_code == 200:
+                return Response(response.json(), status=status.HTTP_200_OK)
+            else:
+                logger.error(f"Error from external API: {response.text}")
+                return Response(
+                    {"error": "Failed to fetch data from the external API"},
+                    status=response.status_code
+                )
+
+        except Exception as e:
+            logger.error(f"An error occurred: {str(e)}")
+            return Response(
+                {"error": "An internal error occurred"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+class SpendingByCountry(APIView):
+    @swagger_auto_schema(
+        operation_description="Retrieve the top Countries sorted by total amounts",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'filters': openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    description="Filters for the Country",
+                    required=['recipient_id', 'time_period'],
+                    properties={
+                        'recipient_id': openapi.Schema(
+                            type=openapi.TYPE_STRING,
+                            description="Unique identifier for the recipient"
+                        ),
+                        'time_period': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'start_date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
+                                    'end_date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
+                                }
+                            ),
+                            description="Time period for the search"
+                        ),
+                        # Add other filter properties here as needed
+                    }
+                ),
+                'limit': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="Number of results to include per page",
+                    default=5
+                ),
+                'page': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="Page of results to return based on the limit",
+                    default=1
+                ),
+                'subawards': openapi.Schema(
+                    type=openapi.TYPE_BOOLEAN,
+                    description="Search Prime Awards or Sub Awards",
+                    default=False,
+                ),
+            },
+            required=['filters'],
+        ),
+        responses={
+            200: openapi.Response(
+                description="A list of top Countries",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'category': openapi.Schema(type=openapi.TYPE_STRING),
+                        'limit': openapi.Schema(type=openapi.TYPE_INTEGER),
+                        'results': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'amount': openapi.Schema(type=openapi.TYPE_NUMBER),
+                                    'name': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'code': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'id': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True)
+                                }
+                            )
+                        ),
+                        'page_metadata': openapi.Schema(
+                            type=openapi.TYPE_OBJECT,
+                            properties={
+                                'page': openapi.Schema(type=openapi.TYPE_INTEGER),
+                                'hasNext': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                                'hasPrevious': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                                'next': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True),
+                                'previous': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True),
+                            }
+                        ),
+                        'messages': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(type=openapi.TYPE_STRING)
+                        ),
+                    }
+                )
+            ),
+            400: "Bad Request - Missing or invalid data",
+        }
+    )
+    def post(self, request):
+        try:
+            data = request.data
+            if 'filters' not in data:
+                return Response(
+                    {"error": "The 'filters' field is required."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            filters = data['filters']
+            limit = data.get('limit', 5)
+            page = data.get('page', 1)
+            subawards = data.get('subawards', False)
+
+            # Prepare the payload for the API request
+            payload = {
+                "filters": filters,
+                "limit": limit,
+                "page": page,
+                "subawards": subawards
+            }
+
+            # Send a request to the external API
+            response = requests.post(
+                'https://api.usaspending.gov/api/v2/search/spending_by_category/country/',
+                json=payload
+            )
+
+            if response.status_code == 200:
+                return Response(response.json(), status=status.HTTP_200_OK)
+            else:
+                logger.error(f"Error from external API: {response.text}")
+                return Response(
+                    {"error": "Failed to fetch data from the external API"},
+                    status=response.status_code
+                )
+
+        except Exception as e:
+            logger.error(f"An error occurred: {str(e)}")
+            return Response(
+                {"error": "An internal error occurred"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+class SpendingByCounty(APIView):
+    @swagger_auto_schema(
+        operation_description="Retrieve the top Counties sorted by total amounts",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'filters': openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    description="Filters for the County",
+                    required=['recipient_id', 'time_period'],
+                    properties={
+                        'recipient_id': openapi.Schema(
+                            type=openapi.TYPE_STRING,
+                            description="Unique identifier for the recipient"
+                        ),
+                        'time_period': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'start_date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
+                                    'end_date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
+                                }
+                            ),
+                            description="Time period for the search"
+                        ),
+                        # Add other filter properties here as needed
+                    }
+                ),
+                'limit': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="Number of results to include per page",
+                    default=5
+                ),
+                'page': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="Page of results to return based on the limit",
+                    default=1
+                ),
+                'subawards': openapi.Schema(
+                    type=openapi.TYPE_BOOLEAN,
+                    description="Search Prime Awards or Sub Awards",
+                    default=False,
+                ),
+            },
+            required=['filters'],
+        ),
+        responses={
+            200: openapi.Response(
+                description="A list of top Counties",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'category': openapi.Schema(type=openapi.TYPE_STRING),
+                        'limit': openapi.Schema(type=openapi.TYPE_INTEGER),
+                        'results': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'amount': openapi.Schema(type=openapi.TYPE_NUMBER),
+                                    'name': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'code': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'id': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True)
+                                }
+                            )
+                        ),
+                        'page_metadata': openapi.Schema(
+                            type=openapi.TYPE_OBJECT,
+                            properties={
+                                'page': openapi.Schema(type=openapi.TYPE_INTEGER),
+                                'hasNext': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                                'hasPrevious': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                                'next': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True),
+                                'previous': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True),
+                            }
+                        ),
+                        'messages': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(type=openapi.TYPE_STRING)
+                        ),
+                    }
+                )
+            ),
+            400: "Bad Request - Missing or invalid data",
+        }
+    )
+    def post(self, request):
+        try:
+            data = request.data
+            if 'filters' not in data:
+                return Response(
+                    {"error": "The 'filters' field is required."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            filters = data['filters']
+            limit = data.get('limit', 5)
+            page = data.get('page', 1)
+            subawards = data.get('subawards', False)
+
+            # Prepare the payload for the API request
+            payload = {
+                "filters": filters,
+                "limit": limit,
+                "page": page,
+                "subawards": subawards
+            }
+
+            # Send a request to the external API
+            response = requests.post(
+                'https://api.usaspending.gov/api/v2/search/spending_by_category/county/',
+                json=payload
+            )
+
+            if response.status_code == 200:
+                return Response(response.json(), status=status.HTTP_200_OK)
+            else:
+                logger.error(f"Error from external API: {response.text}")
+                return Response(
+                    {"error": "Failed to fetch data from the external API"},
+                    status=response.status_code
+                )
+
+        except Exception as e:
+            logger.error(f"An error occurred: {str(e)}")
+            return Response(
+                {"error": "An internal error occurred"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+class SpendingByDistrict(APIView):
+    @swagger_auto_schema(
+        operation_description="Retrieve the top Congressional Districts sorted by total amounts",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'filters': openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    description="Filters for the Congressional District",
+                    required=['recipient_id', 'time_period'],
+                    properties={
+                        'recipient_id': openapi.Schema(
+                            type=openapi.TYPE_STRING,
+                            description="Unique identifier for the recipient"
+                        ),
+                        'time_period': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'start_date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
+                                    'end_date': openapi.Schema(type=openapi.TYPE_STRING, format='date'),
+                                }
+                            ),
+                            description="Time period for the search"
+                        ),
+                        # Add other filter properties here as needed
+                    }
+                ),
+                'limit': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="Number of results to include per page",
+                    default=5
+                ),
+                'page': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="Page of results to return based on the limit",
+                    default=1
+                ),
+                'subawards': openapi.Schema(
+                    type=openapi.TYPE_BOOLEAN,
+                    description="Search Prime Awards or Sub Awards",
+                    default=False,
+                ),
+            },
+            required=['filters'],
+        ),
+        responses={
+            200: openapi.Response(
+                description="A list of top Congressional Districts",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'category': openapi.Schema(type=openapi.TYPE_STRING),
+                        'limit': openapi.Schema(type=openapi.TYPE_INTEGER),
+                        'results': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'amount': openapi.Schema(type=openapi.TYPE_NUMBER),
+                                    'name': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'code': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'id': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True)
+                                }
+                            )
+                        ),
+                        'page_metadata': openapi.Schema(
+                            type=openapi.TYPE_OBJECT,
+                            properties={
+                                'page': openapi.Schema(type=openapi.TYPE_INTEGER),
+                                'hasNext': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                                'hasPrevious': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                                'next': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True),
+                                'previous': openapi.Schema(type=openapi.TYPE_INTEGER, nullable=True),
+                            }
+                        ),
+                        'messages': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(type=openapi.TYPE_STRING)
+                        ),
+                    }
+                )
+            ),
+            400: "Bad Request - Missing or invalid data",
+        }
+    )
+    def post(self, request):
+        try:
+            data = request.data
+            if 'filters' not in data:
+                return Response(
+                    {"error": "The 'filters' field is required."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            filters = data['filters']
+            limit = data.get('limit', 5)
+            page = data.get('page', 1)
+            subawards = data.get('subawards', False)
+
+            # Prepare the payload for the API request
+            payload = {
+                "filters": filters,
+                "limit": limit,
+                "page": page,
+                "subawards": subawards
+            }
+
+            # Send a request to the external API
+            response = requests.post(
+                'https://api.usaspending.gov/api/v2/search/spending_by_category/district/',
+                json=payload
+            )
+
+            if response.status_code == 200:
+                return Response(response.json(), status=status.HTTP_200_OK)
+            else:
+                logger.error(f"Error from external API: {response.text}")
+                return Response(
+                    {"error": "Failed to fetch data from the external API"},
+                    status=response.status_code
+                )
+
+        except Exception as e:
+            logger.error(f"An error occurred: {str(e)}")
+            return Response(
+                {"error": "An internal error occurred"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

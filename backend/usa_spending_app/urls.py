@@ -13,7 +13,7 @@ from .financial_spending_views import ObjectClassFinancialSpending, MinorObjectC
 from .idv_views import IDVAccounts, IDVActivity, IDVAmounts, IDVAwards, IDVFederalAccountCount, IDVFundingRollup
 from .recipient_views import RecipientList, RecipientChildren, RecipientCount, SpecificRecipientDuns, StateOverview, StateList, StateAwardBreakdown
 from .reporting_views import AgencyReportingDifferences, AgencyReportingDiscrepancies, AgencyReportingOverview, AgenciesReportingOverview, AgencyReportingPublishDates, AgenciesReportingPublishDatesHistory, AgenciesUnlinkedAwards
-from .search_views import NewAwardsOverTime, SpendingByAward, SpendingByAwardCount, SpendingByAwardingAgency
+from .search_views import NewAwardsOverTime, SpendingByAward, SpendingByAwardCount, SpendingByAwardingAgency, SpendingByAwardingSubagency, SpendingByCFDA, SpendingByCountry, SpendingByCounty, SpendingByDistrict
 
 # USASpending app urls 
 urlpatterns = [
@@ -162,4 +162,9 @@ urlpatterns = [
     path("search/spending_by_award/", SpendingByAward.as_view(), name="spending_by_award"),
     path("search/spending_by_award_count/", SpendingByAwardCount.as_view(), name="spending_by_award_count"),
     path("search/spending_by_category/awarding_agency/", SpendingByAwardingAgency.as_view(), name="spending_by_awarding_agency"),
+    path("search/spending_by_category/awarding_subagency/", SpendingByAwardingSubagency.as_view(), name="spending_by_awarding_subagency"),
+    path("search/spending_by_category/cfda/", SpendingByCFDA.as_view(), name="spending_by_cfda"),
+    path("search/spending_by_category/country/", SpendingByCountry.as_view(), name="spending_by_country"),
+    path("search/spending_by_category/county/", SpendingByCounty.as_view(), name="spending_by_county"),
+    path("search/spending_by_category/district/", SpendingByDistrict.as_view(), name="spending_by_district"),
 ]
